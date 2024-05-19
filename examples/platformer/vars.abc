@@ -89,6 +89,8 @@ constexpr u8 INVINCIBILITY_DAMAGE = 75;
 
 u8 jump_frames_remaining;
 
+u8 punch_frames_remaining;
+
 // animation showing at level start
 u8 level_start_frames;
 constexpr u8 LEVEL_START_FRAMES = 90;
@@ -164,6 +166,8 @@ float px, py, vx, vy;
 // flags for rendering player
 bool player_facing_right;
 bool player_moving;
+bool player_crouching;
+bool player_punching;
 u8 player_on_ground;
 
 //
@@ -219,6 +223,9 @@ constexpr float PLAYER_SPRING_VEL_H = 3.6;
 
 // frames that the player can hold down A to extend jump
 constexpr u8 PLAYER_JUMP_FRAMES = 15;
+
+// length that the punch animation should be shown
+constexpr u8 PLAYER_PUNCH_FRAMES = 5;
 
 // velocity clamps
 constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;

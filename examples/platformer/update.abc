@@ -366,13 +366,28 @@ void update_level()
     }
 
     // apply user input: jump
-    if(player_on_ground && $just_pressed(A_BUTTON))
+    if(player_on_ground && $just_pressed(UP_BUTTON))
     {
         jump_frames_remaining = PLAYER_JUMP_FRAMES;
         $tones_play_auto(SOUND_JUMP);
     }
+    
+    if(player_on_ground && $just_pressed(A_BUTTON))
+    {
+        player_punching = true;
+        punch_frames_remaining = PLAYER_PUNCH_FRAMES;
+    } else if (punch_frames_remaining > 0){
+        punch_frames_remaining--;
+    } else {
+        player_punching = false;
+    }
+    
+    if($pressed(DOWN_BUTTON))
+        player_crouching = true;
+    else
+        player_crouching = false;
 
-    if(!$pressed(A_BUTTON))
+    if(!$pressed(UP_BUTTON))
         jump_frames_remaining = 0;
     else if(jump_frames_remaining != 0)
     {
@@ -685,10 +700,12 @@ void update_camera_position()
             tcamy = camy;
     }
     
+    /*
     if($pressed(UP_BUTTON))
         tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
     if($pressed(DOWN_BUTTON))
         tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
+    */
     if(tcamx < 0) tcamx = 0;
     if(tcamy < 0) tcamy = 0;
     if(tcamx > xmax) tcamx = xmax;

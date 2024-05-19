@@ -303,7 +303,7 @@ void render_menu()
     else
         $draw_text_P(x, y + h * 2, "Sound: Off");
     $draw_text_P(x, y + h * 3, "Credits");
-    $draw_sprite(x - 19, y - 13 + menui * h, PLAYER, 7 + ((frame_count >> 3) & 3));
+    $draw_sprite(x - 19, y - 13 + menui * h, PLAYER, 10 + ((frame_count >> 3) & 3));
 }
 
 void render_intro()
@@ -374,7 +374,7 @@ void render_intro()
             $draw_text(17 - w / 2, y + 13, buf);
         }
     }
-    $draw_sprite(56, 37, PLAYER, 7 + ((frame_count >> 3) & 0x3));
+    $draw_sprite(56, 37, PLAYER, 10 + ((frame_count >> 3) & 0x3));
     $set_text_font(FONT_BR5D);
     $draw_textf(72, 49, "x%u", lives);
     $set_text_font(MAIN_FONT);
@@ -481,11 +481,15 @@ void render_level()
     {
         u8 index = 0;
         if(player_facing_right)
-            index += 7;
+            index += 10;
         if(player_on_ground)
         {
             if(player_moving)
                 index += ((frame_count >> 3) & 3);
+            if(player_crouching)
+                index += 7;
+            if(player_punching)
+                index += 8;
         }
         else
         {
@@ -494,6 +498,8 @@ void render_level()
         if(death_frames != 0)
             index = 5;
 
+        if (index > 19) index = 19;
+        
         float x = px - camx - PXOFF;
         i16 y = $round(py) - icamy - i16(PYOFF);
         $draw_sprite($round(x), y, PLAYER, index);
